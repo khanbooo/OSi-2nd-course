@@ -232,10 +232,14 @@ int main(int argc, char** argv){
     if (argc != 3){
         return 1;
     }
-    if (!strcmp(argv[0], "./makeReversedDir")){
+
+    char programName[256];
+    myBaseName(argv[0], programName);
+
+    if (!strcmp(programName, "./makeReversedDir")){
         makeReversedDir(argv[1], argv[2]);
     }
-    else if (!strcmp(argv[0], "./copyDir")){
+    else if (!strcmp(programName, "./copyDir")){
         copyDir(argv[1], argv[2]);
     }
 }

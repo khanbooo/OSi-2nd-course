@@ -7,6 +7,20 @@
 #include <stdlib.h>
 #include <errno.h>
 
+void myBaseName(char* path, char* baseName){
+    int nameLength = 0;
+    for (int i = 0; i < strlen(path); i++){
+        if (path[strlen(path) - i - 1] == '/'){
+            nameLength = i;
+            break;
+        }
+    }
+    for (int i = 0; i < nameLength; i++){
+        baseName[i] = path[strlen(path) - nameLength + i];
+    }
+    baseName[nameLength] = '\0';
+}
+
 void buildPath(const char* path, const char* name, char* newDirectoryPath){
     strcpy(newDirectoryPath, path);
     if (path[strlen(path) - 1] != '/') {
@@ -182,46 +196,49 @@ int main(int argc, char** argv){
         return 0;
     }
 
-    if (!strcmp(argv[0], "./myMkdir")){
+    char programName[256];
+    myBaseName(argv[0], programName);
+
+    if (!strcmp(programName, "myMkdir")){
         myMkdir(argv[1], strtol(argv[2], NULL, 8));
     }
-    else if (!strcmp(argv[0], "./myLs")){
+    else if (!strcmp(programName, "myLs")){
         myLs(argv[1]);
     }
-    else if (!strcmp(argv[0], "./myRmDir")){
+    else if (!strcmp(programName, "myRmDir")){
         myRmDir(argv[1]);
     }
-    else if (!strcmp(argv[0], "./myTouch")){
+    else if (!strcmp(programName, "myTouch")){
         myTouch(argv[1], strtol(argv[2], NULL, 8));
     }
-    else if (!strcmp(argv[0], "./myCat")){
+    else if (!strcmp(programName, "myCat")){
         myCat(argv[1]);
     }
-    else if (!strcmp(argv[0], "./myRm")){
+    else if (!strcmp(programName, "myRm")){
         myRm(argv[1]);
     }
-    else if (!strcmp(argv[0], "./mySymlink")){
+    else if (!strcmp(programName, "mySymlink")){
         mySymlink(argv[1], argv[2]);
     }
-    else if (!strcmp(argv[0], "./myReadLink")){
+    else if (!strcmp(programName, "myReadLink")){
         myReadLink(argv[1]);
     }
-    else if (!strcmp(argv[0], "./myReadFileBySymlink")){
+    else if (!strcmp(programName, "myReadFileBySymlink")){
         myReadFileBySymlink(argv[1]);
     }
-    else if (!strcmp(argv[0], "./myLink")){
+    else if (!strcmp(programName, "myLink")){
         myLink(argv[1], argv[2]);
     }
-    else if (!strcmp(argv[0], "./myStat")){
+    else if (!strcmp(programName, "myStat")){
         myStat(argv[1]);
     }
-    else if (!strcmp(argv[0], "./myChmod")){
+    else if (!strcmp(programName, "myChmod")){
         myChmod(argv[1], strtol(argv[2], NULL, 8));
     }
-    else if (!strcmp(argv[0], "./myUnHardlink")){
+    else if (!strcmp(programName, "myUnHardlink")){
         myRm(argv[1]);
     }
-    else if (!strcmp(argv[0], "./myUnSymlink")){
+    else if (!strcmp(programName, "myUnSymlink")){
         myRm(argv[1]);
     }
 }
