@@ -60,6 +60,11 @@ void myRm(char* path){
 void myRmDir(char* path){
     DIR* dir = opendir(path);
     struct dirent* dirEntry;
+    if (dir == NULL){
+        fprintf(stderr, "Unable to open directory at %s\n", path);
+        printError("myRmDir");
+        return;
+    }
     while (dirEntry = readdir(dir)){
         if (dirEntry->d_type == DT_REG){
             char filePath[256];

@@ -5,20 +5,6 @@
 #include <fcntl.h>
 #include <sys/stat.h>
 
-/*
- buildPath(const char* path, const char* name, char* newDirPath, const int pathLen, const int nameLen);
- reverseString(char* src, char* dst);
- getDividedPath(const char* path, char* name, char* dirPath??, );
- reversedFileContent();
- copiedFileContent();
- etc.
-
-
-
-
-
- */
-
 void buildPath(const char* path, const char* name, char* newDirectoryPath){
     strcpy(newDirectoryPath, path);
     if (path[strlen(path) - 1] != '/') {
