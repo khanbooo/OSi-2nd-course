@@ -8,9 +8,16 @@ int a = 5;
 
 int main(int argc, char** argv){
     int b = 3;
+
     printf("global a = %d addr = %p, local b = %d addr = %p\n", a, &a, b, &b);
+    printf("parent pid = %d\n", getpid());
     int pid;
     pid = fork();
+
+    if (pid == 0){
+        printf("child pid = %d\n", getpid());
+    }
+    sleep(15);
 
     if (pid == -1) {
         perror("fork failed\n");
@@ -23,14 +30,13 @@ int main(int argc, char** argv){
         b = 11;
         printf("CHILD global a = %d addr = %p, local b = %d addr = %p\n", a, &a, b, &b);
         exit(5);
-
     }
     else if (pid > 0){
-//        printf("PARENT pid = %d, ppid = %d", getpid(), getppid());
         printf("PARENT global a = %d addr = %p, local b = %d addr = %p\n", a, &a, b, &b);
-        sleep(30);
+        sleep(3);
         int status;
         waitpid(pid, &status, 0);
         printf("exit status: %d\n", WEXITSTATUS(status));
+        sleep(10);
     }
 }
