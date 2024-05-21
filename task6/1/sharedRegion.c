@@ -12,6 +12,7 @@ void myWrite(unsigned int* p){
             p[i] = curr_i++;
         }
     }
+    munmap(p, PAGE_SIZE);
 }
 
 void myRead(unsigned int* p){
@@ -33,6 +34,7 @@ void myRead(unsigned int* p){
             prev_i = curr_i;
         }
     }
+    munmap(p, PAGE_SIZE);
 }
 
 int main(int argc, char** argv) {
