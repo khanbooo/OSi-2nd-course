@@ -17,7 +17,7 @@ int main(){
     struct sockaddr_in clt_sockaddr;
     int err;
 
-    srv_sock = socket(AF_INET, SOCK_STREAM | SOCK_NONBLOCK, 0);
+    srv_sock = socket(AF_INET, SOCK_STREAM, 0);
     if (srv_sock == -1){
         printf("socket() failed %s\n", strerror(errno));
         exit(1);
@@ -50,26 +50,23 @@ int main(){
         unsigned int len;
         int client = accept(srv_sock, (struct sockaddr *) &clt_sockaddr, &len);
         if (client == -1){
-            if (errno == EWOULDBLOCK || errno == EAGAIN){
-                printf("...\n");
-                sleep(1);
-                continue;
-            }
-            printf("accept() failed %s\n", strerror(errno));
-            close(srv_sock);
+            perror(errno);
         }
 
         int client_pid;
         client_pid = fork();
         if (client_pid == 0){
+            close(srv_sock);
             int buff_size = 4096;
             char buff[buff_size];
             while (1){
                 int num_of_r_bytes = recv(client, buff, buff_size, 0);
-                if (num_of_r_bytes == -1) continue;
-                if (num_of_r_bytes == 0) break;
+                if (num_of_r_bytes == -1){
+                    perror(errno);
+                    exit(5);
+                }
+                if (num_of_r_bytes == 0) exit(5);
                 printf("received message: %s\n", buff);
-
                 int num_of_w_bytes = write(client, buff, buff_size);
                 printf("message that was sent back: %s\n", buff);
             }

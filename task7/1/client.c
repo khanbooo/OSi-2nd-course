@@ -13,6 +13,7 @@ int main(){
     struct sockaddr_in srv_sockaddr;
 
     clt_sock = socket(AF_INET, SOCK_DGRAM, 0);
+
     if (clt_sock == -1){
         printf("socket() failed %s\n", strerror(errno));
         exit(1);
